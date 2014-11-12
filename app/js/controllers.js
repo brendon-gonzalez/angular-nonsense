@@ -1,11 +1,26 @@
 'use strict';
 
-/* Controllers */
+// Define Controllers
+function PhoneListCtrl($scope, $http, typography) {
+  $http.get('data/phones.json').success(function(data) {
+    angular.forEach(data, function(v, k) {
+      v.name = typography.upperCase(v.name);
+    });
+    $scope.phones = data;
+  });
 
-angular.module('myApp.controllers', [])
-  .controller('MyCtrl1', ['$scope', function($scope) {
+  $scope.orderProp = 'age';
 
-  }])
-  .controller('MyCtrl2', ['$scope', function($scope) {
+}
 
-  }]);
+
+// Register Controllers
+angular.module('phonecatApp.controllers', [])
+  // .controller - Register a new controller
+  // (['ControllerName', 'service', 'service', 'customModule', Handler function])
+  .controller('PhoneListCtrl',
+    ['$scope',
+     '$http',
+     'phonecatApp.typography',
+     PhoneListCtrl
+    ]);
